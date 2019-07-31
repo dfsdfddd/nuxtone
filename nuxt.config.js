@@ -6,7 +6,7 @@ module.exports = {
    * 配置域名，端口
    */
   server: {
-    port: 7000, // default: 3000
+    port: 3000, // default: 3000
     host: 'localhost', // default: localhost
   },
   /*
@@ -23,7 +23,10 @@ module.exports = {
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ]
   },
-
+  router: {
+    // 在每页渲染前运行 middleware/user-agent.js 中间件的逻辑
+    middleware: 'user-agent'
+  },
   /*
   ** Customize the progress-bar color
   */
@@ -40,7 +43,8 @@ module.exports = {
   ** Plugins to load before mounting the App
   */
   plugins: [
-    '@/plugins/element-ui'
+    '@/plugins/element-ui',
+    '@/plugins/axios'
   ],
 
   /*
@@ -55,9 +59,21 @@ module.exports = {
   ** Axios module configuration
   */
   axios: {
+    proxy: true,
+    prefix: '/api/',
+    credentials: true
     // See https://github.com/nuxt-community/axios-module#options
   },
-
+  /**
+   *
+   */
+  proxy: {
+    '/api': {
+      target: 'https://www.easy-mock.com/mock/5c1a3a88d3056062d5a12718/new1one',
+      // target: 'http://10.213.32.58:40028/network',
+      pathRewrite: { '^/api': '' }
+    },
+  },
   /*
   ** Build configuration
   */
@@ -67,16 +83,16 @@ module.exports = {
     /*
     ** You can extend webpack config here
     */
-    extend(config, ctx) {
-      // Run ESLint on save
-      if (ctx.isDev && ctx.isClient) {
-        config.module.rules.push({
-          enforce: 'pre',
-          test: /\.(js|vue)$/,
-          loader: 'eslint-loader',
-          exclude: /(node_modules)/
-        })
-      }
-    }
-  }
+    // extend(config, ctx) {
+    //   // Run ESLint on save
+    //   if (ctx.isDev && ctx.isClient) {
+    //     config.module.rules.push({
+    //       enforce: 'pre',
+    //       test: /\.(js|vue)$/,
+    //       loader: 'eslint-loader',
+    //       exclude: /(node_modules)/
+    //     })
+    //   }
+    // }
+  },
 }

@@ -25,7 +25,9 @@
           class="button--grey"
         >
           GitHub
+
         </a>
+        <p>{{ips}}canshufasjdlfjalsfj</p>
       </div>
     </div>
   </section>
@@ -37,7 +39,46 @@ import Logo from '~/components/Logo.vue'
 export default {
   components: {
     Logo
-  }
+  },
+  data () {
+    return {
+      ips:[]
+    }
+  },
+  async asyncData({ $axios }) {
+    const ip = await $axios.$get('/logout')
+    console.log('1');
+    console.log(ip);
+    return { ips:ip }
+  },
+  fetch() {
+    console.log('2') // 服务端报错
+  },
+  created () {
+    console.log('3') // undefined
+  },
+  mounted () {
+    console.log('4') // Window {postMessage: ƒ, blur: ƒ, focus: ƒ, close: ƒ, frames: Window, …}
+    console.log(Window);
+    // this.$axios.get("/logout").then(res=>{
+    //         console.log(res)
+    //     })
+    // this.$axios.get("/common/kaptcha").then(res=>{
+    //         console.log(res)
+    //     })
+
+
+    // this.getUser()
+      this.$store.dispatch('setUser2')
+      // this.$store.dispatch('getIP')
+
+  },
+  methods: {
+    async getUser() {
+      const users = await this.$axios.get('/logout')
+      this.$store.dispatch('setUser',users)
+    }
+  },
 }
 </script>
 

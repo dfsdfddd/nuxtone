@@ -8,6 +8,10 @@
       <template>
         <nuxt-link to="/">首页</nuxt-link>
       </template>
+      <div>
+        <span>show list</span>
+        <p>{{list}}</p>
+      </div>
       <h2 class="subtitle">
         My superb Nuxt.js project
       </h2>
@@ -37,8 +41,29 @@ import Logo from '~/components/Logo.vue'
 export default {
   components: {
     Logo
+  },
+  data() {
+    return {
+      list: ''
+    }
+  },
+ async asyncData(context) {
+     const list = await context.$axios.$get('/getList')
+    console.log('1');
+    console.log(list);
+    return { list }
+  },
+  mounted () {
+    console.log(this.$store.state.keepUser);
+    console.log(this.$store.state.ips);
   }
+//  asyncData({params}) {
+  // 动态获取参数
+    // console.log(context);
+    //params.slug
+//   },
 }
+
 </script>
 
 <style>
